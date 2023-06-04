@@ -1,0 +1,7 @@
+import pandas as pd
+
+# Leer el archivo de Excel
+df = pd.read_excel('CalculosRayosX.xlsx', sheet_name='Parte1')
+
+# Imprimir las etiquetas de las columnas
+print(df.columns)
