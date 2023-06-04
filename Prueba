@@ -1,7 +1,29 @@
+import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
 
 # Leer el archivo de Excel
 df = pd.read_excel('CalculosRayosX.xlsx', sheet_name='Parte1')
 
-# Imprimir las etiquetas de las columnas
-print(df.columns)
+#36:43
+x_data = df.loc[35:44,'θ'].values
+y_data = df.loc[35:44, 'Intensidad [u.a.] (Δt=5 ± 1 )s'].values
+print(x_data)
+print(y_data)
+plt.plot(x_data, y_data, 'o')
+
+def Gaussian_fun(x, a, b):
+    y_res = a*np.exp(-1*b*x**2)
+    return y_res
+
+params, cov = curve_fit(Gaussian_fun, x_data, y_data)
+  
+fitA = params[0]
+fitB = params[1]
+
+fity = Gaussian_fun(x_data, fitA, fitB)
+
+plt.plot(x_data, y_data, '*', label="data")
+plt.plot(x_data, fity, '-', label="fit")
+plt.legend()
